@@ -1,9 +1,11 @@
+-- One to one
+
 CREATE TABLE Passports
 (
 PassportID int PRIMARY KEY IDENTITY(101,1),
 PassportNumber varchar(50)
 )
-
+ 
 --ALTER TABLE Persons
 --ALTER COLUMN Salary decimal(7,2)
 
@@ -47,6 +49,133 @@ VALUES(
 'Yana',
 60200.00,
 101)
+
+-- One to many
+
+CREATE TABLE Manufacturers
+(
+	ManufacturerID int PRIMARY KEY IDENTITY,
+	[Name] VARCHAR(50),
+	EstablishedOn DATE 
+)
+
+CREATE TABLE Models
+(
+	ModelID int PRIMARY KEY IDENTITY(101, 1),
+	[Name] VARCHAR(50),
+	ManufacturerID int,
+    FOREIGN KEY (ManufacturerID) REFERENCES Manufacturers(ManufacturerID)
+)
+
+INSERT INTO Manufacturers
+([Name], EstablishedOn)
+VALUES ('BMW', '07/03/1916')
+
+INSERT INTO Manufacturers
+([Name], EstablishedOn)
+VALUES ('Tesla', '07/03/1916')
+
+INSERT INTO Manufacturers
+([Name], EstablishedOn)
+VALUES ('Lada', '07/03/1916')
+
+INSERT INTO Models
+([NAME], ManufacturerID)
+VALUES ('X1', 1)
+
+INSERT INTO Models
+([NAME], ManufacturerID)
+VALUES ('i6', 1)
+
+INSERT INTO Models
+([NAME], ManufacturerID)
+VALUES ('Model S', 2)
+
+INSERT INTO Models
+([NAME], ManufacturerID)
+VALUES ('Model X', 2)
+
+INSERT INTO Models
+([NAME], ManufacturerID)
+VALUES ('Model 3', 2)
+
+INSERT INTO Models
+([NAME], ManufacturerID)
+VALUES ('Nova', 3)
+
+-- Many to many
+
+CREATE TABLE Students
+(
+	StudentID int PRIMARY KEY IDENTITY,
+	[Name] VARCHAR(50)
+)
+
+CREATE TABLE Exams
+(
+	ExamID int PRIMARY KEY IDENTITY(101, 1),
+	[Name] VARCHAR(50)
+)
+
+CREATE TABLE StudentsExams
+(
+	StudentID int,
+	ExamID int,
+	CONSTRAINT StudentsExams_CompositeKey PRIMARY KEY (StudentID, ExamID),
+	CONSTRAINT FK_Students
+	FOREIGN KEY (StudentID) REFERENCES Students(StudentID),
+	CONSTRAINT FK_Exam
+	FOREIGN KEY (ExamID) REFERENCES Exams (ExamID)
+)
+
+INSERT INTO Students
+([Name])
+VALUES ('Mila')
+
+INSERT INTO Students
+([Name])
+VALUES ('Toni')
+
+INSERT INTO Students
+([Name])
+VALUES ('Ron')
+
+
+INSERT INTO Exams
+([Name])
+VALUES ('SpringMVC')
+
+INSERT INTO Exams
+([Name])
+VALUES ('Neo4j')
+
+INSERT INTO Exams
+([Name])
+VALUES ('Oracle 11g')
+
+INSERT INTO StudentsExams
+(StudentID, ExamID)
+VALUES (1, 101)
+
+INSERT INTO StudentsExams
+(StudentID, ExamID)
+VALUES (1, 102)
+
+INSERT INTO StudentsExams
+(StudentID, ExamID)
+VALUES (2, 101)
+
+INSERT INTO StudentsExams
+(StudentID, ExamID)
+VALUES (3, 103)
+
+INSERT INTO StudentsExams
+(StudentID, ExamID)
+VALUES (2, 102)
+
+INSERT INTO StudentsExams
+(StudentID, ExamID)
+VALUES (2, 103)
 
 
 
